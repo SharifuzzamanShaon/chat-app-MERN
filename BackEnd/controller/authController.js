@@ -29,7 +29,7 @@ const regController = async (req, res, next) => {
             picture: picture
         }
         const token = jwt.sign(payload, 'secret-key', { expiresIn: '8h' })
-        return res.status(200).json({ message: "new user created", Token: token })
+        return res.status(200).json({ message: "new user created", token: "Bearer " + token, userInfo: payload })
     } catch (error) {
         next(error)
     }
@@ -52,7 +52,7 @@ const loginController = async (req, res, next) => {
             email: user.email,
         }
         const token = jwt.sign(payload, 'secret-key', { expiresIn: '8h' })
-        return res.status(200).json({ message: "login success", token: "Bearer " + token });
+        return res.status(200).json({ message: "login success", token: "Bearer " + token, userInfo: payload });
     } catch (error) {
         //return res.status(404).json({ message: "User may not exists" })
         next(error)

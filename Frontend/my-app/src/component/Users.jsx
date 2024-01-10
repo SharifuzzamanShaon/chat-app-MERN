@@ -12,7 +12,7 @@ const Users = () => {
   console.log(searchValue);
   const config = {
     headers: {
-      Authorization: `${userData}`
+      Authorization: `${userData.token}`
     }
   }
   const findUser = async () => {
@@ -28,7 +28,7 @@ const Users = () => {
   const accesssUser = async (id) => {
     const config = {
       headers: {
-        Authorization: `${userData}`
+        Authorization: `${userData.token}`
       }
     }
     const response = await axios.post('http://localhost:5000/api/chat/', { userId: id }, config)

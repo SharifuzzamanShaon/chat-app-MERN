@@ -20,7 +20,7 @@ function App() {
           <Route element={<PrivateRoute/>}>
             <Route path='app' element={<MainContainer />}>
               <Route path='welcome' element={<Welcome />}></Route>
-              <Route path='chat' element={<ChatArea />}></Route>
+              <Route path='chat/:id' element={<ChatArea />}></Route>
               <Route path='users' element={<Users />}></Route>
               <Route path='groups' element={<Users_Groups />}></Route>
               <Route path='create-group' element={<CreateGroup />}></Route>

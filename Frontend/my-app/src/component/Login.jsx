@@ -38,7 +38,7 @@ function Login() {
       );
       console.log("Login : ", response);
       if (response.status === 200) {
-        localStorage.setItem("userData", JSON.stringify(response.data.token));
+        localStorage.setItem("userData", JSON.stringify(response.data));
         dispatch(setValidUser())
         navigate("/app/welcome");
       }

@@ -23,17 +23,18 @@ const Sidebar = () => {
     const [conversations, setConversations] = useState([]);
     // console.log("Conversations of Sidebar : ", conversations);
     const userData = JSON.parse(localStorage.getItem("userData"));
-    // console.log("Data from LocalStorage : ", userData);
+    console.log("Data from LocalStorage : ", userData.userInfo._id);
 
     const config = {
         headers: {
-            Authorization: `${userData}`
+            Authorization: `${userData.token}`
         }
     }
     const fetchAllConversation = async () => {
         const response = await axios.get("http://localhost:5000/api/chat/", config);
-        console.log(response);
+        console.log(response.data);
         setConversations(response.data)
+        console.log(userData.userInfo._id );
     }
     useEffect(() => {
         fetchAllConversation();
@@ -100,17 +101,21 @@ const Sidebar = () => {
                                     key={index}
                                     className={"conversation-container" + (lightTheme ? "" : ' dark')}
                                     onClick={() => {
+                                        // console.log("Data from conver: ",'1st' conversation.users[0]._id);
                                         navigate(
-                                            "chat/"
-                                        );
+                                            // `chat/${conversation.users[0]._id === userData.userInfo._id ? conversation.users[1]._id : conversation.users[0]._id}`
+                                            `chat/${conversation._id}`
+                                            );
                                     }}
                                 // dispatch change to refresh so as to update chatArea
                                 >
                                     <p className={"con-icon" + (lightTheme ? "" : ' dark')}>
-                                        {conversation.users[1].name[0]}
+                                        {conversation.users[0]._id === userData.userInfo._id ? conversation.users[1].name[0] : conversation.users[0].name[0]}
+                                        
                                     </p>
                                     <p className={"con-title" + (lightTheme ? "" : ' dark')}>
-                                        {conversation.users[1].name}
+                                        {conversation.users[0]._id === userData.userInfo._id ? conversation.users[1].name : conversation.users[0].name}
+                                        {/* {conversation.users[1].name} */}
                                     </p>
 
                                     <p className={"con-lastMessage" + (lightTheme ? "" : ' dark')}>
@@ -129,15 +134,16 @@ const Sidebar = () => {
                                 className="conversation-container"
                                 onClick={() => {
                                     navigate(
-                                        "chat/"
-                                    );
+                                        // `chat/${conversation.users[0]._id === userData.userInfo._id ? conversation.users[1]._id : conversation.users[0]._id}`
+                                        `chat/${conversation._id}`
+                                        );
                                 }}
                             >
                                 <p className={"con-icon"}>
-                                    {conversation.users[1].name[0]}
+                                    {conversation.users[0]._id === userData.userInfo._id ? conversation.users[1].name[0] : conversation.users[0].name[0]}
                                 </p>
                                 <p className={"con-title"}>
-                                    {conversation.users[1].name}
+                                    {conversation.users[0]._id === userData.userInfo._id ? conversation.users[1].name : conversation.users[0].name}
                                 </p>
 
                                 <p className="con-lastMessage">

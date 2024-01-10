@@ -15,7 +15,8 @@ function Welcome() {
   //     navigate("/");
   //   }
   // }, [])
-
+  const {userInfo} = JSON.parse(localStorage.getItem("userData"))
+  console.log(userInfo);
   return (
     <div className={"welcome-container" + (lightTheme ? "" : ' dark')}>
       <img
@@ -23,7 +24,7 @@ function Welcome() {
         alt="Logo"
         className="welcome-logo"
       />
-      <b>Hi , { } 👋</b>
+      <b>Hi , {userInfo.name} 👋</b>
       <p>View and text directly to people present in the chat Rooms.</p>
     </div>
   );
