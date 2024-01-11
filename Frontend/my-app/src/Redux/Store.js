@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import themeReducer from './themeSlice'
 import authReducer from './authSlice'
+import refreshSidebar from './refreshSidebar'
 const rootReducer = combineReducers({
     themeKey: themeReducer,
-    authKey: authReducer
+    authKey: authReducer,
+    refreshKey: refreshSidebar
 })
 
 export const store = configureStore({

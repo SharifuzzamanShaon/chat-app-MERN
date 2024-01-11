@@ -17,11 +17,10 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const lightTheme = useSelector((state) => state.themeKey);
-    // const refresh = useSelector((state) => state.refreshKey);
+    const refresh = useSelector((state) => state.refreshKey);
     //   const { refresh, setRefresh } = useContext(myContext);
     //   console.log("Context API : refresh : ", refresh);
     const [conversations, setConversations] = useState([]);
-    // console.log("Conversations of Sidebar : ", conversations);
     const userData = JSON.parse(localStorage.getItem("userData"));
     console.log("Data from LocalStorage : ", userData.userInfo._id);
 
@@ -38,7 +37,7 @@ const Sidebar = () => {
     }
     useEffect(() => {
         fetchAllConversation();
-    }, [])
+    }, [refresh])
     return (
         <div className="sidebar-container">
             <div className={'sb-header' + (lightTheme ? "" : ' dark')}>
@@ -101,13 +100,12 @@ const Sidebar = () => {
                                     key={index}
                                     className={"conversation-container" + (lightTheme ? "" : ' dark')}
                                     onClick={() => {
-                                        // console.log("Data from conver: ",'1st' conversation.users[0]._id);
+                                       
                                         navigate(
-                                            // `chat/${conversation.users[0]._id === userData.userInfo._id ? conversation.users[1]._id : conversation.users[0]._id}`
                                             `chat/${conversation._id}`
                                             );
                                     }}
-                                // dispatch change to refresh so as to update chatArea
+                                
                                 >
                                     <p className={"con-icon" + (lightTheme ? "" : ' dark')}>
                                         {conversation.users[0]._id === userData.userInfo._id ? conversation.users[1].name[0] : conversation.users[0].name[0]}
@@ -115,11 +113,11 @@ const Sidebar = () => {
                                     </p>
                                     <p className={"con-title" + (lightTheme ? "" : ' dark')}>
                                         {conversation.users[0]._id === userData.userInfo._id ? conversation.users[1].name : conversation.users[0].name}
-                                        {/* {conversation.users[1].name} */}
+                                        
                                     </p>
 
                                     <p className={"con-lastMessage" + (lightTheme ? "" : ' dark')}>
-                                        No previous Messages, click here to start a new chat
+                                        click here to send Message
                                     </p>
                                     <p className={"con-timeStamp" + (lightTheme ? "" : " dark")}>
                                         {conversation.timeStamp}
@@ -134,7 +132,6 @@ const Sidebar = () => {
                                 className="conversation-container"
                                 onClick={() => {
                                     navigate(
-                                        // `chat/${conversation.users[0]._id === userData.userInfo._id ? conversation.users[1]._id : conversation.users[0]._id}`
                                         `chat/${conversation._id}`
                                         );
                                 }}

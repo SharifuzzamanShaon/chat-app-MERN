@@ -5,10 +5,13 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import './style.css'
 import { motion } from 'framer-motion'
+import { useDispatch } from 'react-redux';
+import { refreshSidebarFun } from '../Redux/refreshSidebar';
 const Users = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [searchValue, setSearchValue] = useState("")
   const [users, setUsers] = useState([])
+  const dispatch = useDispatch()
   console.log(searchValue);
   const config = {
     headers: {
@@ -33,6 +36,7 @@ const Users = () => {
     }
     const response = await axios.post('http://localhost:5000/api/chat/', { userId: id }, config)
     console.log(response);
+    dispatch(refreshSidebarFun())
   }
   return (
     <div className='list-container'>
