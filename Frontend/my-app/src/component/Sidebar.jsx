@@ -102,8 +102,7 @@ const Sidebar = () => {
                                     onClick={() => {
                                        
                                         navigate(
-                                            `chat/${conversation._id}`
-                                            );
+                                            `chat/${conversation._id}&${conversation.users[0]._id === userData.userInfo._id ? conversation.users[1].name : conversation.users[0].name}`);
                                     }}
                                 
                                 >
@@ -132,7 +131,7 @@ const Sidebar = () => {
                                 className="conversation-container"
                                 onClick={() => {
                                     navigate(
-                                        `chat/${conversation._id}`
+                                        `chat/${conversation._id}&${conversation.users[0]._id === userData.userInfo._id ? conversation.users[1].name : conversation.users[0].name}`
                                         );
                                 }}
                             >

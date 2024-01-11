@@ -45,9 +45,17 @@ const server = app.listen(PORT, async () => {
 const io = require("socket.io")(server, {
     pingTimeout: 60000,
     cors: {
-        origin: "http://localhost:3660/",
+        origin: ["http://localhost:5173"]
     }
 })
+io.on("connection", (socket) => {
+    console.log(socket.id);
+    socket.on('send-msg', (message) => {
+        console.log(message)
+        io.emit('receive-msg', message)
+        
+    })
+});
 
 // io.on("connection", (socket) => {
 //     console.log("Connected to socket oi");
@@ -64,7 +72,7 @@ const io = require("socket.io")(server, {
 //         if (!chat) {
 
 //             console.log("User not defined");
-//             return 
+//             return
 //         }
 //         chat.users.forEach((user) => {
 //             console.log(`USER:${user}`);
