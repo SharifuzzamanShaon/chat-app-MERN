@@ -35,10 +35,11 @@ const ChatArea = ({ children }) => {
 
     }, [id, msgBoxRefresh])
 
-    const socket = io('http://localhost:5000')
+    let socket = io('http://localhost:5000')
     useEffect(() => {
         socket.on('receive-msg', (message) => {
             console.log(message);
+            setMessageData([...messageData, message])
         })
     })
     const sendMessage = async () => {
@@ -47,16 +48,16 @@ const ChatArea = ({ children }) => {
             socket.on("connect", () => {
                 console.log('connected with', socket.id);
             })
-            socket.emit("send-msg", msgText)
-            // const config = {
-            //     headers: {
-            //         Authorization: `${userData.token}`
-            //     }
-            // }
-            // await axios.post('http://localhost:5000/api/message/', { content: msgText, chatId: id }, config)
-            // setMsgText("");
-            // setMsgBoxRefesh(!msgBoxRefresh);
-            // dispatch(refreshSidebarFun())  
+            socket.emit("send-msg", msgText, socket.id)
+            const config = {
+                headers: {
+                    Authorization: `${userData.token}`
+                }
+            }
+            await axios.post('http://localhost:5000/api/message/', { content: msgText, chatId: id }, config)
+            setMsgText("");
+            setMsgBoxRefesh(!msgBoxRefresh);
+            dispatch(refreshSidebarFun())  
         } catch (error) {
             console.log(error);
         }
@@ -80,7 +81,7 @@ const ChatArea = ({ children }) => {
 
                         const sender = message.sender
                         const userId = userData.userInfo._id
-                        if (sender._id === userId) {
+                        if (sender._id &&  sender._id === userId) {
                             return <MessageSelf props={message} key={index} />
                         } else {
                             return <MessageFromOutside props={message} key={index} />

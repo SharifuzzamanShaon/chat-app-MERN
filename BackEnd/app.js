@@ -50,10 +50,14 @@ const io = require("socket.io")(server, {
 })
 io.on("connection", (socket) => {
     console.log(socket.id);
-    socket.on('send-msg', (message) => {
+    socket.on('send-msg', (message, room) => {
         console.log(message)
-        io.emit('receive-msg', message)
-        
+        socket.broadcast.emit('receive-msg', message)
+        if (room === '') {
+            socket.broadcast.emit('receive-msg', message)
+        } else {
+            socket.broadcast.to(room).emit('receive-msg', message)
+        }
     })
 });
 
