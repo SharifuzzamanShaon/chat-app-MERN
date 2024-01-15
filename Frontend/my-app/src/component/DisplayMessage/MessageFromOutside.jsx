@@ -4,12 +4,12 @@ const MessageFromOutside = ({props}) => {
     return (
         <div className={"other-message-container"}>
             <div className={"conversation-container" }>
-                <p className={"con-icon" }>
+                {/* <p className={"con-icon" }>
                     {props.sender.name[0]}
-                </p>
+                </p> */}
                 <div className={"other-text-content" }>
                     <p className={"con-title"}>
-                        {props.sender.name}
+                        {/* {props.sender.name} */}
                     </p>
                     <p className={"con-lastMessage" }>
                         {props.content}

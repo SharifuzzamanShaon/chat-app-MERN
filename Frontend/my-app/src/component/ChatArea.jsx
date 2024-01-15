@@ -12,7 +12,6 @@ import { io } from 'socket.io-client'
 const ChatArea = ({ children }) => {
     const params = useParams()
     const [id, name] = params.id.split("&");
-    console.log(name);
     const dispatch = useDispatch()
     const [messageData, setMessageData] = useState([]);
     const [msgText, setMsgText] = useState('');
@@ -27,8 +26,9 @@ const ChatArea = ({ children }) => {
     }
     const fetchCHatData = async () => {
         const response = await axios.get(`http://localhost:5000/api/message/${id}`, config);
-        console.log(response);
+        // console.log(response);
         setMessageData(response.data);
+        // console.log(response.data);
     }
     useEffect(() => {
         fetchCHatData();
@@ -37,14 +37,27 @@ const ChatArea = ({ children }) => {
 
     let socket = io('http://localhost:5000')
     useEffect(() => {
-        socket.on('receive-msg', (message) => {
-            console.log(message);
-            setMessageData([...messageData, message])
-        })
+        try {
+
+            socket.on('receive-msg', (message) => {
+                console.log(message);
+
+                const currentMsg = {
+                    sender: {
+                        _id: '09090io'
+                    },
+                    content: message
+                }
+                setMessageData([...messageData, currentMsg])
+                // console.log(messageData);
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
     })
     const sendMessage = async () => {
         try {
-            console.log(socket);
             socket.on("connect", () => {
                 console.log('connected with', socket.id);
             })
@@ -57,7 +70,7 @@ const ChatArea = ({ children }) => {
             await axios.post('http://localhost:5000/api/message/', { content: msgText, chatId: id }, config)
             setMsgText("");
             setMsgBoxRefesh(!msgBoxRefresh);
-            dispatch(refreshSidebarFun())  
+            dispatch(refreshSidebarFun())
         } catch (error) {
             console.log(error);
         }
@@ -81,7 +94,7 @@ const ChatArea = ({ children }) => {
 
                         const sender = message.sender
                         const userId = userData.userInfo._id
-                        if (sender._id &&  sender._id === userId) {
+                        if (sender._id === userId) {
                             return <MessageSelf props={message} key={index} />
                         } else {
                             return <MessageFromOutside props={message} key={index} />
@@ -92,9 +105,9 @@ const ChatArea = ({ children }) => {
 
             </div>
             <div className={'text-input-area' + (lightTheme ? "" : ' dark')}>
-                <input placeholder='Type message' className={'search-box' + (lightTheme ? "" : ' dark')} value={msgText} onChange={(e) => setMsgText(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && sendMessage()}></input>
+                <input placeholder='Type message' className={'search-box' + (lightTheme ? "" : ' dark')} value={msgText} onChange={(e) => setMsgText(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && msgText && sendMessage()}></input>
                 <IconButton className={'icon' + (lightTheme ? "" : ' dark')} onClick={() => sendMessage()}>
-                    <SendIcon></SendIcon>
+                    { msgText ? <SendIcon/> : ""}
                 </IconButton>
             </div>
         </div>

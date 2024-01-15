@@ -10,6 +10,7 @@ const cors = require('cors');
 const routes = require('./Routes/index');
 const authenticate = require('./middleware/auth');
 const Chat = require('./models/ChatModel');
+const { sendMessage } = require('./controller/messageController');
 dotenv.config();
 
 app.use(cors({
@@ -42,6 +43,7 @@ const server = app.listen(PORT, async () => {
     await connectDB();
 })
 
+
 const io = require("socket.io")(server, {
     pingTimeout: 60000,
     cors: {
@@ -51,12 +53,14 @@ const io = require("socket.io")(server, {
 io.on("connection", (socket) => {
     console.log(socket.id);
     socket.on('send-msg', (message, room) => {
-        console.log(message)
+        console.log("room", room);
         socket.broadcast.emit('receive-msg', message)
-        if (room === '') {
+        if (room === '' ) {
             socket.broadcast.emit('receive-msg', message)
+            console.log("Hi from open chat");
         } else {
-            socket.broadcast.to(room).emit('receive-msg', message)
+            socket.to(room).emit('receive-msg', message)
+            console.log("Hi from room");
         }
     })
 });
