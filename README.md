@@ -2,6 +2,7 @@
 [Attention please : This Prjects is integrated will my LMS-app here [SkillSage](https://skillsage-6v3g.onrender.com)]
 
 ## 📌 Overview
+<img width="1268" alt="Screenshot 2025-02-21 at 6 48 22 PM" src="https://github.com/user-attachments/assets/13463aac-705d-434b-aa56-e2e004abf4b6" />
 
 This is a full-stack real-time chat application built using the MERN stack (MongoDB, Express.js, React.js, Node.js) with Socket.IO for instant messaging. The app features user authentication, real-time messaging, and an interactive UI built with Material-UI and Framer Motion.
 
